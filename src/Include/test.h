@@ -1,3 +1,3 @@
 
-extern void test2();
 extern void test3();
+extern void test4();

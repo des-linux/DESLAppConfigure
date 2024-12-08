@@ -1,6 +1,6 @@
 #include <test.h>
+#include <stdio.h>
 
-void Startup(){
-	test2();
-	test3();
+void test4(){
+	printf("OKOK from Test4\n");
 }
