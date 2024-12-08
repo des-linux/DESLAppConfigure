@@ -1,7 +1,7 @@
 # Makefile for Dark Embedded Systems Linux Applications / Libraries
 #	(C)2024-2025 Dark Embedded Systems
 #	http://e.xprj.net/
-# Version: DLAMF:X:A:A:20241215001
+# Version: DLAMF:X:A:A:20241215002
 
 
 
@@ -82,12 +82,18 @@ install-header:
 ifneq ($(INSTALL_INCLUDES),)
 	@mkdir -p "$(DESTDIR)/$(INCLUDEDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_INCLUDES), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(INCLUDEDIR)" \
+		cp -r "$(SROOT)/$(P)" -T "$(DESTDIR)/$(INCLUDEDIR)"; \
 	)
 
-
+ifneq ($(INSTALL_HEADER_FILES),)
+	@mkdir -p "$(DESTDIR)/$(INCLUDEDIR)"
+	@$(foreach P, \
+		$(INSTALL_HEADER_FILES), \
+		cp "$(SROOT)/$(P)" "$(DESTDIR)/$(INCLUDEDIR)"; \
+	)
+endif
 
 # 'install-bin'
 install-bin: $(INSTALL_DEPENDS)
@@ -95,25 +101,25 @@ install-bin: $(INSTALL_DEPENDS)
 
 ifneq ($(SUBDIRS_BIN),)
 	@mkdir -p "$(DESTDIR)/$(BINDIR)"
-	$(foreach P, \
+	@$(foreach P, \
 		$(SUBDIRS_BIN), \
-		@echo " $(P)"; cp "$(addprefix $(OUTPUT_DIR)/,$(P))" "$(addsuffix $(PROGRAM_SUFFIX), $(addprefix $(DESTDIR)/$(BINDIR)/$(PROGRAM_PREFIX),$(P)))" \
+		echo " $(P)"; cp "$(addprefix $(OUTPUT_DIR)/,$(P))" "$(addsuffix $(PROGRAM_SUFFIX), $(addprefix $(DESTDIR)/$(BINDIR)/$(PROGRAM_PREFIX),$(P)))"; \
 	)
 endif
 
 ifneq ($(SUBDIRS_SBIN),)
 	@mkdir -p "$(DESTDIR)/$(SBINDIR)"
-	$(foreach P, \
+	@$(foreach P, \
 		$(SUBDIRS_SBIN), \
-		@echo " $(P)"; cp "$(addprefix $(OUTPUT_DIR)/,$(P))" "$(addsuffix $(PROGRAM_SUFFIX), $(addprefix $(DESTDIR)/$(SBINDIR)/$(PROGRAM_PREFIX),$(P)))" \
+		echo " $(P)"; cp "$(addprefix $(OUTPUT_DIR)/,$(P))" "$(addsuffix $(PROGRAM_SUFFIX), $(addprefix $(DESTDIR)/$(SBINDIR)/$(PROGRAM_PREFIX),$(P)))"; \
 	)
 endif
 
 ifneq ($(SUBDIRS_LIBEXEC),)
 	@mkdir -p "$(DESTDIR)/$(LIBEXECDIR)"
-	$(foreach P, \
+	@$(foreach P, \
 		$(SUBDIRS_LIBEXEC), \
-		@echo " $(P)"; cp "$(addprefix $(OUTPUT_DIR)/,$(P))" "$(addsuffix $(PROGRAM_SUFFIX), $(addprefix $(DESTDIR)/$(LIBEXECDIR)/$(PROGRAM_PREFIX),$(P)))" \
+		echo " $(P)"; cp "$(addprefix $(OUTPUT_DIR)/,$(P))" "$(addsuffix $(PROGRAM_SUFFIX), $(addprefix $(DESTDIR)/$(LIBEXECDIR)/$(PROGRAM_PREFIX),$(P)))"; \
 	)
 endif
 
@@ -133,16 +139,16 @@ install-lib:
 ifneq ($(SUBDIRS_LIB),)
 ifeq ($(SSMODE_STATIC),1)
 	@mkdir -p "$(DESTDIR)/$(LIBDIR)"
-	$(foreach P, \
+	@$(foreach P, \
 		$(SUBDIRS_LIB), \
-		@echo " $(P)"; cp "$(addsuffix .a, $(addprefix $(OUTPUT_DIR)/lib,$(P)))" "$(addsuffix .a, $(addprefix $(DESTDIR)/$(LIBDIR)/,$(P)))" \
+		@echo " $(P)"; cp "$(addsuffix .a, $(addprefix $(OUTPUT_DIR)/lib,$(P)))" "$(addsuffix .a, $(addprefix $(DESTDIR)/$(LIBDIR)/,$(P)))"; \
 	)
 endif
 ifeq ($(SSMODE_SHARED),1)
 	@mkdir -p "$(DESTDIR)/$(LIBDIR)"
-	$(foreach P, \
+	@$(foreach P, \
 		$(SUBDIRS_LIB), \
-		@echo " $(P)"; cp "$(addsuffix .so, $(addprefix $(OUTPUT_DIR)/lib,$(P)))" "$(addsuffix .so, $(addprefix $(DESTDIR)/$(LIBDIR)/,$(P)))" \
+		echo " $(P)"; cp "$(addsuffix .so, $(addprefix $(OUTPUT_DIR)/lib,$(P)))" "$(addsuffix .so, $(addprefix $(DESTDIR)/$(LIBDIR)/,$(P)))"; \
 	)
 endif
 endif
@@ -155,25 +161,25 @@ install-data:
 ifneq ($(INSTALL_ETCS),)
 	@mkdir -p "$(DESTDIR)/$(SYSCONFDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_ETCS), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(SYSCONFDIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(SYSCONFDIR)"; \
 	)
 
 ifneq ($(INSTALL_SHARE),)
 	@mkdir -p "$(DESTDIR)/$(SHAREDSTATEDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_SHARE), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(SHAREDSTATEDIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(SHAREDSTATEDIR)"; \
 	)
 
 ifneq ($(INSTALL_LOCALES),)
 	@mkdir -p "$(DESTDIR)/$(LOCALEDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_LOCALES), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(LOCALEDIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(LOCALEDIR)"; \
 	)
 
 
@@ -181,49 +187,49 @@ install-doc:
 ifneq ($(INSTALL_DOCS),)
 	@mkdir -p "$(DESTDIR)/$(DATADIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_DOCS), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(DATADIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(DATADIR)"; \
 	)
 
 ifneq ($(INSTALL_DOCS_INFO),)
 	@mkdir -p "$(DESTDIR)/$(INFODIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_DOCS_INFO), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(INFODIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(INFODIR)"; \
 	)
 
 ifneq ($(INSTALL_DOCS_MAN),)
 	@mkdir -p "$(DESTDIR)/$(MANDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_DOCS_MAN), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(MANDIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(MANDIR)"; \
 	)
 
 ifneq ($(INSTALL_DOCS_DVI),)
 	@mkdir -p "$(DESTDIR)/$(DVIDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_DOCS_DVI), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(DVIDIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(DVIDIR)"; \
 	)
 
 ifneq ($(INSTALL_DOCS_PDF),)
 	@mkdir -p "$(DESTDIR)/$(PDFDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_DOCS_PDF), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(PDFDIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(PDFDIR)"; \
 	)
 
 ifneq ($(INSTALL_DOCS_PS),)
 	@mkdir -p "$(DESTDIR)/$(PSDIR)"
 endif
-	$(foreach P, \
+	@$(foreach P, \
 		$(INSTALL_DOCS_PS), \
-		@cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(PSDIR)" \
+		cp -r "$(SROOT)/$(P)/" -T "$(DESTDIR)/$(PSDIR)"; \
 	)
 
 
