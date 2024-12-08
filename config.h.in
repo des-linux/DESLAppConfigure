@@ -1,0 +1,11 @@
+
+//@@ConfigType	Key			Default		"Args in configure"	"description"
+#ConfigInt	CONFIG_TEST_INT1	1		"test-int1"		"Test config key for int 1"
+#ConfigInt	CONFIG_TEST_INT2	5678		"test-int2"		"Test config key for int 2"
+#ConfigStr	CONFIG_TEST_STR1	"Test1"		"test-str1"		"Test config key for str 1"
+#ConfigStr	CONFIG_TEST_STR2	"Test2"		"test-str2"		"Test config key for str 2"
+#ConfigRaw	CONFIG_TEST_RAW1	"Test3"		"test-raw1"		"Test config key for raw 1"
+#ConfigBool	CONFIG_TEST_BOOL1	0		"test-bool1"		"Test config key for bool 1"
+#ConfigBool	CONFIG_TEST_BOOL2	0		"test-bool2"		"Test config key for bool 2"
+#ConfigBool	CONFIG_TEST_BOOL3	0		"test-bool3"		"Test config key for bool 3"
+#ConfigBool	CONFIG_TEST_BOOL4	0		"test-bool4"		"Test config key for bool 4"
