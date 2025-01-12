@@ -779,17 +779,10 @@ TestEcho(){
 	}
 	return 0;
 }
-error(){
-	${echo_e} "\e[31;1mE:\e[m\e[1m ${*}\e[m" >&2
-}
-warning(){
-	${echo_e} "\e[33;1mW:\e[m\e[1m ${*}\e[m" >&2
-}
-infoex(){
-	${echo_e} "\e[m\e[1mI:\e[m\e[1m ${*}\e[m"
-}
-info(){
-	${echo_e} "I: ${*}"
-}
+
+error(){ echo ${echo_e} "\e[31;1mE:\e[m\e[1m ${*}\e[m" >&2; }
+warning(){ echo ${echo_e} "\e[33;1mW:\e[m\e[1m ${*}\e[m" >&2; }
+infoex(){ echo ${echo_e} "\e[m\e[1mI:\e[m\e[1m ${*}\e[m"; }
+info(){ echo ${echo_e} "I: ${*}"; }
 
 Entry "${@}";
